@@ -1,0 +1,626 @@
+* {
+    box-sizing: border-box;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    background: linear-gradient(135deg, #40E0D0 0%, #008080 50%, #006666 100%);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Main reservation container */
+.reservation-container {
+    width: 80%;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 2px solid #008080;
+    border-radius: 10px;
+
+}
+
+.modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 400px;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .modal p {
+        font-size: 16px;
+    }
+
+/* Room info section */
+.room-info {
+    text-align: center;
+    padding: 10px;
+    background-color: #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    
+}
+
+/* Day selector dropdown */
+.day-selector {
+    text-align: center;
+    margin-bottom: 20px;
+}
+/* Schedule Table Container */
+.schedule-table-container {
+    display: flex;
+    justify-content: center; /* Horizontally center the table */
+    align-items: center; /* Vertically center */
+    width: 100%;
+    height: 100vh;
+    margin-bottom: -20rem;/* Full height for vertical centering */
+}
+
+.open-modal-btn {
+    display: block;
+    margin: 15px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Centering the "Schedule" Heading */
+h3 {
+    text-align: center; /* Center the text */
+    margin-bottom: 20px; /* Space between heading and table */
+}
+
+/* Schedule Table */
+.schedule-table {
+    width: 80%; /* Adjust width as needed */
+    margin-left: 5rem; /* Horizontally center the table */
+    border-collapse: collapse;  
+}
+
+#scheduleTable h3 {
+    text-align: center; /* Align the heading at the center */
+    margin-bottom: 20px; 
+    margin-right: 8rem;/* Add some space below the heading */
+}
+/* Centering the "Please select a day to view the schedule." message */
+.schedule-table p {
+    text-align: center;
+    margin: 20px 0; /* Add margin for spacing */
+}
+
+/* Reserve Button */
+.center-button {
+    display: block;
+    margin: 20px auto; /* Center the button horizontally */
+    padding: 10px 20px;
+    background-color: #008080;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.center-button:hover {
+    background-color: #006666; /* Darker shade on hover */
+}
+
+/* Table Styling */
+.schedule-table th, .schedule-table td {
+    padding: 10px;
+    text-align: center; /* Center the text horizontally */
+}
+
+.schedule-table th {
+    background: linear-gradient(
+        90deg,
+        #006666 0%,    
+        #008080 50%,     
+        #40E0D0 100%
+    );
+    color: white;
+}
+
+.schedule-table td {
+    vertical-align: middle; /* Center text vertically */
+}
+
+
+
+.schedule-container {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    height: 100%;
+    margin-top: -20rem; /* Ensure it takes up full height of its parent */
+}
+
+h3 {
+    text-align: center; /* Center the text */
+    margin: 0; /* Remove default margin, if necessary */
+}
+.center-button {
+    display: block;
+    margin: 20px auto; /* Horizontally center the button */
+    padding: 10px 20px; /* Add some padding for better appearance */
+    background-color: #008080;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.center-button:hover {
+    background-color: #006666; /* Darker shade on hover */
+}
+
+
+.schedule-table table {
+    width: 85%; /* Ensure the table fills the width */
+    border-collapse: collapse;
+    border-radius: 15px;
+    margin-left:0;
+    
+}
+
+.schedule-table th, .schedule-table td {
+    padding: 10px; /* Add padding for better spacing */
+    text-align: center; /* Center the text horizontally */
+}
+
+.schedule-table th {
+    background: linear-gradient(
+        90deg,         
+        #006666 0%,    
+        #008080 50%,     
+        #40E0D0 100%   
+    );
+    color: white;
+
+}
+
+.schedule-table td {
+    vertical-align: middle; /* Center text vertically */
+}
+/* Clickable time slots styling */
+.clickable {
+    cursor: pointer;
+    background:linear-gradient(
+        135deg,         
+        #006666 0%,    
+        #008080 50%,     
+        #40E0D0 100%   
+    );
+
+}
+
+.clickable:hover {
+  background:linear-gradient(
+        135deg,         
+        #006666 0%,    
+        #008080 50%,     
+        #40E0D0 100%   
+    );
+}
+
+
+.available-slot {
+    background-color: #008080;; /* Green color */
+    color: white; /* White text */
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+  
+}
+
+.available-slot:hover {
+    background-color: red; /* Darker green when hovered */
+}
+
+
+/* Reservation form styling */
+.reservation-form {
+    text-align: center;
+    padding: 15px;
+    background-color: #008080;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+#reserveButton {
+    background:linear-gradient(
+        135deg,         
+        #006666 0%,    
+        #008080 50%,     
+        #40E0D0 100%   
+    );
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#reserveButton:hover {
+    background:linear-gradient(
+        135deg,         
+        #006666 0%,    
+        #008080 50%,     
+        #40E0D0 100%   
+    );
+}
+
+
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hide modal by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent background */
+    overflow: auto; /* Enable scrolling if needed */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Confirm button styling */
+button {
+    background: linear-gradient(
+        135deg,         
+        #006666 0%,    
+        #008080 50%,     
+        #40E0D0 100%   
+    );
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: black;
+}
+
+/* Textarea Styling */
+textarea {
+    width: 100%;
+    padding: 7px;
+    border: 2px 2px 2px 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    resize: vertical;
+}
+
+/*available time will hover*/
+.available-row {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.available-row:hover {
+    background-color: lightblue;
+}
+
+.schedule-table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.schedule-table th, .schedule-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.schedule-table th {
+    background-color: teal;
+    color: white;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* Mobile View */
+/* Mobile View */
+@media screen and (max-width: 480px) {
+    .reservation-container {
+        width: 95%;
+        margin: 60px auto 20px;
+        padding: 15px;
+    }
+
+    .room-info {
+        padding: 8px;
+        margin-bottom: 15px;
+    }
+
+    .schedule-table-container {
+        width: 100%;
+        margin-bottom: -10rem;
+        overflow-x: auto;
+    }
+
+    .schedule-table {
+        width: 100%;
+        margin-left: 0;
+        font-size: 12px;
+        margin-left: 30px;
+    }
+
+    .schedule-table th, 
+    .schedule-table td {
+        padding: 6px;
+        font-size: 11px;
+    }
+
+    .open-modal-btn {
+        margin: 20px auto; /* Center the button horizontally */
+        margin-left: 0; /* Reset margin-left to 0 */
+        margin-right: 0; /* Reset margin-right to 0 */
+    }
+}
+
+/* Responsive Reserve Button */
+#reserveSelectedTimesBtn {
+    width: fit-content;
+    display: block;
+    margin-right: 31rem;
+    transition: all 0.3s ease;
+}
+
+/* Mobile devices (Extra Small) */
+@media screen and (max-width: 480px) {
+    #reserveSelectedTimesBtn {
+        width: 100%;
+        max-width: 170px;
+        font-size: 12px;
+        padding: 8px 12px;
+        margin-left: 4rem;
+    }
+    .in-btn, .out-btn {
+        padding: 8px 12px;
+        margin-left: 0.5rem;
+        font-size: 10px;
+    }
+    .schedule-table {
+        font-size: 12px;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+        padding: 4px;
+    }
+}
+
+/* Mobile devices (Small) */
+@media screen and (min-width: 481px) and (max-width: 576px) {
+    #reserveSelectedTimesBtn {
+        width: 100%;
+        max-width: 280px;
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
+
+/* Tablet devices */
+@media screen and (min-width: 577px) and (max-width: 992px) {
+    #reserveSelectedTimesBtn {
+        max-width: 300px;
+        font-size: 15px;
+        padding: 10px 15px;
+    }
+    .in-btn {
+        padding: 15px 25px;
+        margin-left: 3rem;
+    }
+
+    .out-btn {
+        padding: 15px 20px;
+        margin-left: 0.3rem;
+    }
+}
+
+/* Large screens */
+@media screen and (min-width: 993px) {
+    #reserveSelectedTimesBtn {
+        max-width: 350px;
+        font-size: 16px;
+        padding: 12px 18px;
+    }
+    .in-btn {
+        padding: 20px 30px;
+        margin-left: 4.5rem;
+    }
+
+    .out-btn {
+        padding: 20px 25px;
+        margin-left: 0.5rem;
+    }
+}
+.schedule-table,
+.schedule-table thead,
+.schedule-table tbody,
+.schedule-table tr,
+.schedule-table th,
+.schedule-table td {
+    border-radius: 0 !important;
+}
+
+/* Responsive Table Styles */
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px; /* Base font size */
+}
+
+/* Responsive Table Header */
+.schedule-table thead {
+    background-color: #f8f9fa;
+}
+
+.schedule-table th, 
+.schedule-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+.in-btn, .out-btn {
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+/* Responsive Buttons */
+.in-btn{
+    padding: 20px 30px;
+    margin-left: 4.5rem;
+    font-size: 14px;
+} 
+.out-btn {
+    padding: 20px 25px;
+    margin-left: 0.5rem;
+    font-size: 14px;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+
+    .in-btn, .out-btn {
+        padding: 10px 15px;
+        margin-left: 1rem;
+        font-size: 12px;
+    }
+
+
+    .schedule-table {
+        font-size: 14px;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+        padding: 6px;
+    }
+
+    .schedule-table {
+        overflow-x: auto;
+        display: block;
+        width: 100%;
+    }
+
+    .select-slot {
+        transform: scale(0.8);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .schedule-table {
+        font-size: 12px; 
+        width:100%;
+        max-width:1000px;/* Even smaller on very small screens */
+    }
+
+    .schedule-table th, 
+    .schedule-table td {
+        padding: 4px;
+    }
+
+    .in-btn{
+        margin-left:1.3rem;
+        padding: 4px 8px;
+        font-size: 10px;
+    } 
+    .out-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+
+    }
+}
+
+/* Responsive Text Sizing */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: clamp(14px, 3vw, 16px);
+    }
+}
+
+/* Ensure table is fully responsive */
+.schedule-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
