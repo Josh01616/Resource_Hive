@@ -67,7 +67,7 @@ function displayStaticRooms() {
 
   const roomsForDays = {
       1: [  // Monday
-          { name: "OS", availableSlots: 5 },
+          { name: "OS ROOM", availableSlots: 5 },
           { name: "CCL 101", availableSlots: 4 },
           { name: "CCL 102", availableSlots: 6 },
           { name: "ITC 201", availableSlots: 3 },
@@ -91,7 +91,7 @@ function displayStaticRooms() {
           { name: "ITC 505", availableSlots: 7 }
       ],
       2: [  // Tuesday
-          { name: "OS", availableSlots: 4 },
+          { name: "OS ROOM", availableSlots: 4 },
           { name: "CCL 101", availableSlots: 4 },
           { name: "CCL 102", availableSlots: 4 },
           { name: "ITC 201", availableSlots: 1 },
@@ -115,7 +115,7 @@ function displayStaticRooms() {
           { name: "ITC 505", availableSlots: 1 }
       ],
       3: [  // Wednesday
-          { name: "OS", availableSlots: 3 },
+          { name: "OS ROOM", availableSlots: 3 },
           { name: "CCL 101", availableSlots: 2 },
           { name: "CCL 102", availableSlots: 4 },
           { name: "ITC 201", availableSlots: 2 },
@@ -144,7 +144,7 @@ function displayStaticRooms() {
           { name: "ITC 505", availableSlots: 4 }
       ],
       4:[ //Thursday
-          { name: "OS", availableSlots: 6 },
+          { name: "OS ROOM", availableSlots: 6 },
           { name: "CCL 101", availableSlots: 2 },
           { name: "CCL 102", availableSlots: 3 },
           { name: "ITC 201", availableSlots: 3 },
@@ -173,7 +173,7 @@ function displayStaticRooms() {
           { name: "ITC 505", availableSlots: 5 }
       ],
       5:[//Friday
-          { name: "OS", availableSlots: 6 },
+          { name: "OS ROOM", availableSlots: 6 },
           { name: "CCL 101", availableSlots: 6 },
           { name: "CCL 102", availableSlots: 5 },
           { name: "ITC 201", availableSlots: 3 },
@@ -201,7 +201,7 @@ function displayStaticRooms() {
           { name: "ITC 505", availableSlots: 6 }
       ],
       6:[//Saturday
-          { name: "OS", availableSlots: 6 },
+          { name: "OS ROOM", availableSlots: 6 },
           { name: "CCL 101", availableSlots: 6 },
           { name: "CCL 102", availableSlots: 6 },
           { name: "ITC 201", availableSlots: 6 },
