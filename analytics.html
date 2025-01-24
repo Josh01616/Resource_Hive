@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+    <link rel="stylesheet" href="css/analytics.css">
+   
+    <!-- External Script Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <header>
+        <h1>Room Reservation Analytics</h1>
+    </header>
+
+    <main>
+        <div class="filter-container">
+            <label for="dayDropdown">Select Day:</label>
+            <select id="dayDropdown">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+            </select>
+        </div>
+     
+        <section id="analytics">
+            <div class="chart-container">
+                <canvas id="mostReservedChart"></canvas>
+            </div>
+           
+            <div class="stats-container">
+                <h2>Room Usage Statistics</h2>
+                <ul id="roomStats"></ul>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="userAnalyticsChart"></canvas>
+            </div>
+
+            <div class="stats-container">
+                <h2>User Analytics</h2>
+                <ul id="userStats"></ul>
+            </div>
+        </section>
+    </main>
+   
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Firebase Authentication Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCuehkyhTTGuNFXyNEQqkERTXVkg3R6eDo",
+            authDomain: "visual-visionaries.firebaseapp.com",
+            projectId: "visual-visionaries",
+            storageBucket: "visual-visionaries.firebasestorage.app",
+            messagingSenderId: "24641645399",
+            appId: "1:24641645399:web:21e2549cf65843f09a2c12",
+            measurementId: "G-TQRQKBESP5"
+        };
+   
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Authentication State Monitoring
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                console.log('User is signed in:', user);
+            } else {
+                console.log('No user is signed in.');
+            }
+        });
+
+        // Login State Management
+        sessionStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('isLoggedIn', 'true');
+
+        // Login State Checking
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!sessionStorage.getItem('isLoggedIn') && !localStorage.getItem('isLoggedIn')) {
+                window.location.href = 'login.html';
+            }
+
+            // Logout Button Logic
+            const logoutBtns = document.querySelectorAll('#logout-btn');
+            logoutBtns.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    try {
+                        const currentUser = auth.currentUser;
+                        if (!currentUser) {
+                            alert('No user is logged in. Please log in first.');
+                            return;
+                        }
+
+                        await signOut(auth);
+                        console.log('User successfully logged out.');
+
+                        localStorage.removeItem('isLoggedIn');
+                        sessionStorage.clear();
+
+                        window.location.replace('login.html');
+                        history.pushState(null, null, location.href);
+                        history.forward();
+                    } catch (error) {
+                        console.error('Error during logout:', error);
+                        alert('An error occurred while logging out.');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <!-- Analytics Script -->
+    <script type="module" src="js/analytics.js"></script>
+</body>
+</html>
