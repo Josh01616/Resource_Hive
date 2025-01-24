@@ -191,7 +191,7 @@ function createRoomCard(room) {
 }
 
 function goToInteractiveMap() {
-    window.location.href = 'interactivemap.html';
+    window.location.href = 'InteractiveMap.html';
 }
 
 document.getElementById('searchButton').addEventListener('click', searchRooms);
