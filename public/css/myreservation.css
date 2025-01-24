@@ -1,0 +1,257 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: #333;
+    overflow-x: hidden;
+  
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#reservationHistory {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border-radius: 5px;
+    overflow: hidden; /* Prevent overflow from rounded borders */
+}
+
+#reservationHistory th, 
+#reservationHistory td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+#reservationHistory th {
+    background-color: #008080;
+    color: white;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+#reservationHistory td {
+    background-color: #f9f9f9;
+    font-size: 14px;
+}
+
+#reservationHistory tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#reservationHistory tr:hover {
+    background-color: #d1f0f0;
+    cursor: pointer;
+}
+
+#reservationHistory .cancel-btn {
+    background-color: #ff6666;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reservationHistory .cancel-btn:hover {
+    background-color: #cc3333;
+}
+
+.my-reservations h2 {
+    margin-bottom: 10px;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .my-reservations {
+        padding: 5px;
+    }
+
+    .my-reservations h2 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    #reservationHistory {
+        display: block;
+        overflow-x: auto; /* Add horizontal scrolling for smaller screens */
+        white-space: nowrap; /* Prevent table content from wrapping */
+        border: none;
+    }
+
+    #reservationHistory th, 
+    #reservationHistory td {
+        font-size: 12px; /* Adjust font size for readability */
+        padding: 8px;
+        text-align: left;
+    }
+
+    #reservationHistory th {
+        font-size: 14px;
+    }
+
+    #reservationHistory td {
+        font-size: 12px;
+    }
+
+    #reservationHistory .cancel-btn {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+
+    #reservationHistory tr:hover {
+        background-color: #e0f7f7; /* Adjust hover effect for small screens */
+    }
+
+    #reservationForm {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+
+th {
+    background-color: #008080;
+    color: white;
+}
+
+tr {
+    margin-bottom: 10px;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.reservation-success {
+    text-align: center;
+    background-color: #d3f2e1;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 5px;
+    color: #008080;
+    font-weight: bold;
+}
+
+.my-reservations {
+    margin-top: 120px;
+    width: 80%;
+    text-align: left;
+    margin-left: 5rem;
+    margin-bottom: 10rem;
+}
+
+.reservation-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+body {
+    font-family: sans-serif;
+    color: #333;
+}
+
+.header-logo {
+    font-size: 30px;
+    font-family: "Alumni Sans Collegiate One", serif;
+    text-shadow: -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black, 1px 1px 0px black;
+}
+
+.cancel-button {
+    background-color: #ff6666;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background-color: #cc3333;
+}
+
+.footer-bottom {
+    background-color: #E0F7FA;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    text-align: center;
+    box-shadow: 
+        0 8px 16px rgba(0.5, 0.5, 0.5, 0.5),
+        inset 0 4px 8px rgba(0.5, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 480px) {
+    .my-reservations {
+        width: 95%;
+        margin: 80px auto 60px;
+        padding: 10px;
+    }
+
+    #reservationHistory {
+        width: 100%;
+        font-size: 12px;
+        overflow-x: auto;
+        white-space: nowrap;
+        display: block;
+    }
+
+    #reservationHistory th, 
+    #reservationHistory td {
+        padding: 8px;
+        font-size: 11px;
+    }
+
+    .cancel-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    .reservation-success {
+        width: 90%;
+        margin: 15px auto;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .reservation-item {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+}
