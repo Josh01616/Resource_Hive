@@ -972,7 +972,7 @@ function canCheckIn(startTimestamp) {
 
     // Calculate time windows
     const checkInStart = new Date(phStartTime.getTime() - 5 * 60 * 1000); // 5 minutes before
-    const checkInEnd = new Date(phStartTime.getTime() + 5 * 60 * 1000);   // 5 minutes after
+    const checkInEnd = new Date(phStartTime.getTime() + 60 * 60 * 1000);   // 5 minutes after
 
     // Check if current time is within the allowed window
     const canCheck = phNow >= checkInStart && phNow <= checkInEnd;
