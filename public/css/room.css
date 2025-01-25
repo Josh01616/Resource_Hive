@@ -116,6 +116,28 @@ h3 {
     margin-left: 5rem; /* Horizontally center the table */
     border-collapse: collapse;  
 }
+.check-time-column,
+ .check-in-status-column {
+    width: 50px; /* Fixed small width */
+    max-width: 50px;
+    font-size: 10px; /* Very small font size */
+    padding: 2px 4px; /* Minimal padding */
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* Responsive IN and OUT buttons */
+.in-btn, .out-btn {
+    display: inline-block;
+    padding: 6px 10px; /* Smaller padding */
+    font-size: 10px; /* Smaller font size */
+    margin: 0 2px; /* Minimal margin */
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
 #scheduleTable h3 {
     text-align: center; /* Align the heading at the center */
@@ -548,13 +570,14 @@ textarea {
 }
 /* Responsive Buttons */
 .in-btn{
-    padding: 20px 30px;
-    margin-left: 4.5rem;
+    padding: 10px 20px;
+    margin-left: 3.5rem;
     font-size: 14px;
 } 
 .out-btn {
-    padding: 20px 25px;
-    margin-left: 0.5rem;
+    padding: 10px 15px;
+    margin-left: 0rem;
+    margin-right: 2.5rem;
     font-size: 14px;
 }
 
