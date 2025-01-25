@@ -1,7 +1,16 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import { getFirestore, collection, query, where, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { 
+  getFirestore, 
+  collection, 
+  query, 
+  where, 
+  getDocs, 
+  doc, 
+  updateDoc 
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
+// Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCuehkyhTTGuNFXyNEQqkERTXVkg3R6eDo",
   authDomain: "visual-visionaries.firebaseapp.com",
@@ -12,230 +21,219 @@ const firebaseConfig = {
   measurementId: "G-TQRQKBESP5"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Utility function for styling
+function createStyledElement(type, text, styles = {}) {
+  const element = document.createElement(type);
+  element.textContent = text;
+  Object.assign(element.style, styles);
+  return element;
+}
+
+// Fetch and display user details
 async function fetchUserDetails() {
-  const user = auth.currentUser;
-
-  if (user) {
-    const userEmail = user.email;
-    console.log("Logged in user:", userEmail);
-
-    try {
-      const q = query(collection(db, "accountDetails"), where("email", "==", userEmail));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        const userData = userDoc.data();
-        updateProfileCard(userData, user);
-      } else {
-        console.log("No document found with this email!");
-      }
-    } catch (error) {
-      console.error("Error getting document: ", error);
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      console.log("No user is logged in");
+      redirectToLogin();
+      return;
     }
-  } else {
-    console.log("No user is logged in");
+
+    const userEmail = user.email;
+    const q = query(collection(db, "accountDetails"), where("email", "==", userEmail));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.error("No user document found");
+      return;
+    }
+
+    const userData = querySnapshot.docs[0].data();
+    const docId = querySnapshot.docs[0].id;
+    renderProfileView(userData, docId);
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    alert("Failed to load profile. Please try again.");
   }
 }
 
-function updateProfileCard(userData, user) {
+// Render profile view
+function renderProfileView(userData, docId) {
   const profileCard = document.querySelector('.profile-card');
-
-  const profileHeader = document.createElement('h2');
-  profileHeader.textContent = "PROFILE";
-  profileCard.appendChild(profileHeader);
-
-  profileHeader.style.fontSize = '36px';
-  profileHeader.style.fontWeight = 'bold';
-  profileHeader.style.textAlign = 'center';
-  profileHeader.style.background = 'linear-gradient(135deg, #006666 0%, #008080 50%, #40E0D0 100%)';
-  profileHeader.style.color = '#ffffff';
-  profileHeader.style.padding = '10px';
-  profileHeader.style.borderRadius = '5px';
-  profileHeader.style.width = '50%';
-  profileHeader.style.margin = '0 auto';
-
-  const profileName = document.createElement('p');
-  profileName.textContent = `Full Name: ${userData.fullname || "Full Name Not Available"}`;
-  profileName.style.fontSize = '24px';
-  profileName.style.fontWeight = 'bold';
-  profileName.style.marginTop = '15px';
-
-  const profileEmail = document.createElement('p');
-  profileEmail.textContent = `Email: ${userData.email}`;
-  profileEmail.style.fontSize = '20px';
-  profileEmail.style.fontWeight = 'normal';
-  profileEmail.style.marginTop = '10px';
-
-  const profileContact = document.createElement('p');
-  profileContact.textContent = `Contact: ${userData.contact || "N/A"}`;
-  profileContact.style.fontSize = '20px';
-  profileContact.style.fontWeight = 'normal';
-  profileContact.style.marginTop = '10px';
-
-  const editButton = document.createElement('button');
-  editButton.textContent = "Edit Profile";
-  editButton.style.marginTop = '20px';
-  editButton.style.padding = '10px 20px';
-  editButton.style.background = 'linear-gradient(135deg, #006666 0%, #008080 50%, #40E0D0 100%)';
-  editButton.style.border = 'none';
-  editButton.style.color = 'white';
-  editButton.style.cursor = 'pointer';
-
   profileCard.innerHTML = ''; // Clear previous content
-  profileCard.appendChild(profileHeader);
-  profileCard.appendChild(profileName);
-  profileCard.appendChild(profileEmail);
-  profileCard.appendChild(profileContact);
-  profileCard.appendChild(editButton);
 
-  // When the "Edit" button is clicked, enable the fields to be editable
-  editButton.addEventListener('click', () => {
-    enableProfileEdit(userData, user);
-  });
+  const styles = {
+    header: {
+      fontSize: '36px',
+      fontWeight: 'bold',
+      textAlign: 'center',
+      background: 'linear-gradient(135deg, #006666 0%, #008080 50%, #40E0D0 100%)',
+      color: '#ffffff',
+      padding: '10px',
+      borderRadius: '5px',
+      width: '50%',
+      margin: '0 auto'
+    },
+    text: {
+      fontSize: '20px',
+      marginTop: '15px'
+    },
+    button: {
+      marginTop: '20px',
+      padding: '10px 20px',
+      background: 'linear-gradient(135deg, #006666 0%, #008080 50%, #40E0D0 100%)',
+      color: 'white',
+      border: 'none',
+      cursor: 'pointer'
+    }
+  };
+
+  const profileHeader = createStyledElement('h2', 'PROFILE', styles.header);
+  const profileName = createStyledElement('p', `Full Name: ${userData.fullname || 'Not Available'}`, styles.text);
+  const profileEmail = createStyledElement('p', `Email: ${userData.email}`, styles.text);
+  const profileContact = createStyledElement('p', `Contact: ${userData.contact || 'Not Available'}`, styles.text);
+
+  const editButton = createStyledElement('button', 'Edit Profile', styles.button);
+  editButton.addEventListener('click', () => renderEditView(userData, docId));
+
+  profileCard.append(profileHeader, profileName, profileEmail, profileContact, editButton);
 }
 
-function enableProfileEdit(userData, user) {
+// Render edit view
+function renderEditView(userData, docId) {
   const profileCard = document.querySelector('.profile-card');
+  profileCard.innerHTML = ''; // Clear previous content
 
-  // Clear the profile card
-  profileCard.innerHTML = '';
+  const styles = {
+    header: {
+      fontSize: '36px',
+      fontWeight: 'bold',
+      textAlign: 'center',
+      background: 'linear-gradient(135deg, #006666 0%, #008080 50%, #40E0D0 100%)',
+      color: '#ffffff',
+      padding: '10px',
+      borderRadius: '5px',
+      width: '50%',
+      margin: '0 auto'
+    },
+    input: {
+      width: '50%',
+      padding: '10px',
+      margin: '10px 0',
+      border: '1px solid #ddd',
+      borderRadius: '4px'
+    },
+    button: {
+      width: '50%',
+      padding: '10px',
+      background: 'linear-gradient(135deg, #006666 0%, #008080 50%, #40E0D0 100%)',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer'
+    }
+  };
 
-  // Create input fields for editing
-  const profileHeader = document.createElement('h2');
-  profileHeader.textContent = "Edit Profile";
-  profileCard.appendChild(profileHeader);
+  const editHeader = createStyledElement('h2', 'Edit Profile', styles.header);
 
-  profileHeader.style.fontSize = '36px';
-  profileHeader.style.fontWeight = 'bold';
-  profileHeader.style.textAlign = 'center';
-  profileHeader.style.background = 'linear-gradient(135deg, #006666 0%, #008080 50%, #40E0D0 100%)';
-  profileHeader.style.color = '#ffffff';
-  profileHeader.style.padding = '10px';
-  profileHeader.style.borderRadius = '5px';
-  profileHeader.style.width = '40%';
-  profileHeader.style.margin = '0 auto';
-
-  // Create editable fields for fullname and contact
   const fullnameInput = document.createElement('input');
   fullnameInput.type = 'text';
   fullnameInput.value = userData.fullname || '';
   fullnameInput.placeholder = 'Full Name';
-  fullnameInput.style.fontSize = '18px';
-  fullnameInput.style.marginTop = '15px';
+  Object.assign(fullnameInput.style, styles.input);
 
   const contactInput = document.createElement('input');
   contactInput.type = 'text';
   contactInput.value = userData.contact || '';
   contactInput.placeholder = 'Contact Number';
-  contactInput.style.fontSize = '18px';
-  contactInput.style.marginTop = '10px';
+  Object.assign(contactInput.style, styles.input);
 
-  const saveButton = document.createElement('button');
-  saveButton.textContent = "Save Changes";
-  saveButton.style.marginTop = '20px';
-  saveButton.style.padding = '10px 20px';
-  saveButton.style.background = 'linear-gradient(135deg, #006666 0%, #008080 50%, #40E0D0 100%)';
-  saveButton.style.border = 'none';
-  saveButton.style.color = 'white';
-  saveButton.style.cursor = 'pointer';
+  const saveButton = createStyledElement('button', 'Save Changes', styles.button);
+  saveButton.addEventListener('click', () => updateProfile(docId, fullnameInput.value, contactInput.value));
 
-  profileCard.appendChild(fullnameInput);
-  profileCard.appendChild(contactInput);
-  profileCard.appendChild(saveButton);
+  profileCard.append(editHeader, fullnameInput, contactInput, saveButton);
+}
 
-  // Save the updated data to Firestore
-  saveButton.addEventListener('click', async () => {
-    const updatedFullname = fullnameInput.value;
-    const updatedContact = contactInput.value;
+// Update profile in Firestore
+async function updateProfile(docId, fullname, contact) {
+  try {
+    // Validate inputs
+    if (!fullname || !contact) {
+      alert('Please fill in all fields');
+      return;
+    }
 
+    await updateDoc(doc(db, "accountDetails", docId), {
+      fullname,
+      contact
+    });
+
+    alert('Profile updated successfully!');
+    fetchUserDetails(); // Refresh profile view
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    alert('Failed to update profile. Please try again.');
+  }
+}
+
+// Logout functionality
+function setupLogoutButton() {
+  const logoutBtn = document.getElementById('logout-btn');
+  logoutBtn.addEventListener('click', async () => {
     try {
-      // Update Firestore with the new details
-      await setDoc(doc(db, "accountDetails", user.uid), {
-        fullname: updatedFullname,
-        email: user.email,
-        contact: updatedContact,
-        createdAt: new Date().toISOString()
-      });
-
-      // Feedback to the user
-      alert('Profile updated successfully!');
-      window.location.reload(); // Reload the page to update the profile card
+      await auth.signOut();
+      localStorage.removeItem('isLoggedIn');
+      window.location.href = 'login.html';
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("Logout error:", error);
     }
   });
 }
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    fetchUserDetails();
-  } else {
-    console.log("User is not logged in");
-  }
-});
-
-window.onload = () => {
-  fetchUserDetails();
-};
-
-
-// Prevent the back button if the user is logged in
-window.addEventListener("load", () => {
-  const user = auth.currentUser;
-  if (user) {
-      // Ensure the user cannot go back to login page if already logged in
-      history.pushState(null, null, location.href);
-      window.onpopstate = function() {
-          history.pushState(null, null, location.href);
-      };
-  }
-});
-
-// Logout button functionality
-const logoutBtn = document.getElementById('logout-btn');
-logoutBtn.addEventListener('click', async () => {
-  // Log the user out
-  await auth.signOut();
-  
-  // Redirect to login page
-  window.location.href = 'login.html';
-
-  // Clear back button prevention logic after logout
+// Prevent back navigation for logged-in users
+function preventBackNavigation() {
   history.pushState(null, null, location.href);
   window.onpopstate = function() {
-      history.go(1); // Allow normal back navigation after logout
-  };
-
-  // Remove login status from localStorage
-  localStorage.removeItem('isLoggedIn');
-});
-
-// Store login status when the user logs in (already part of your login flow)
-localStorage.setItem('isLoggedIn', 'true');
-
-// Apply back button prevention when the page loads, based on login status
-if (localStorage.getItem('isLoggedIn') === 'true') {
-  // Apply back button prevention logic
-  history.pushState(null, null, location.href);
-  window.onpopstate = function() {
-      history.pushState(null, null, location.href);
+    history.pushState(null, null, location.href);
   };
 }
-document.addEventListener('DOMContentLoaded', function () {
-  // Toggle the profile menu visibility
-  function toggleProfileMenu() {
-      const profileMenu = document.getElementById('profileMenu');
-      profileMenu.classList.toggle('show'); // Toggle the 'show' class
-  }
 
-  // Attach the toggle function to the profile link
+// Redirect to login if not authenticated
+function redirectToLogin() {
+  window.location.href = 'login.html';
+}
+
+// Initialize authentication state listener
+function initAuthListener() {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      fetchUserDetails();
+      setupLogoutButton();
+      preventBackNavigation();
+      localStorage.setItem('isLoggedIn', 'true');
+    } else {
+      redirectToLogin();
+    }
+  });
+}
+
+// Profile menu toggle
+function setupProfileMenuToggle() {
   const profileLink = document.querySelector('.profile-link');
-  profileLink.addEventListener('click', toggleProfileMenu);
+  const profileMenu = document.getElementById('profileMenu');
+
+  profileLink.addEventListener('click', () => {
+    profileMenu.classList.toggle('show');
+  });
+}
+
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+  initAuthListener();
+  setupProfileMenuToggle();
 });
-
-
